@@ -100,7 +100,7 @@ function setup() {
   }  
 
 start = grid[0][0];
-end = grid[cols -1][3];
+end = grid[cols -1][rows -1];
 start.wall=false;
 end.wall=false;
 openSet.push(start);
@@ -135,18 +135,22 @@ function draw() {
       if(!closeSet.includes(neighbor) && !neighbor.wall){
         var tempG = current.g + 1; 
         
+        var newPath = false;
         if (openSet.includes(neighbors)){  //to check wheather it evavulated before
           if (tempG < neighbor.g){            // is it better g
             neighbor.g = tempG;
-
+            newPath=true;
           } 
           }else{
           neighbor.g =tempG;
+          newPath=true;
           openSet.push(neighbor);    //if not there add it
         }
+        if(newPath){
         neighbor.h= heuristic(neighbor,end);//guessing
         neighbor.f= neighbor.g+neighbor.h;
         neighbor.previous = current;
+        }
       }
       
      }                                          //we can keep giong
